@@ -824,3 +824,43 @@ textarea {
     height: 720px;
   }
 }
+
+
+/* =========================
+   MOBILE FULLSCREEN LAYOUT
+   ========================= */
+
+@media (max-width: 600px) {
+  body {
+    /* remove big green margins and centering on phones */
+    display: block;
+    margin: 0;
+    background: var(--bg-main);
+    min-height: 100vh;
+  }
+
+  .app-shell {
+    padding: 0;
+    width: 100%;
+    height: 100vh;
+  }
+
+  .app-phone {
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    border-radius: 0;        /* no rounded outer corners */
+    box-shadow: none;        /* no outer shadow */
+    padding: 10px 14px 18px; /* keep inner padding */
+  }
+}
+
+
+.creator-note {
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
