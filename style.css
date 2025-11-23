@@ -1,0 +1,826 @@
+/* =========================
+   THEME VARIABLES
+   ========================= */
+
+:root {
+  --accent: #16a34a;
+  --accent-soft: #dcfce7;
+  --bg-page: #22c55e;
+  --bg-main: #fdfdfb;
+  --text-main: #0f172a;
+  --text-muted: #6b7280;
+  --card-radius: 20px;
+  --shadow-soft: 0 16px 40px rgba(15, 23, 42, 0.18);
+}
+
+/* =========================
+   BASE LAYOUT
+   ========================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", sans-serif;
+  background: var(--bg-page);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: var(--text-main);
+}
+
+.app-shell {
+  padding: 24px;
+}
+
+.app-phone {
+  width: 380px;
+  max-width: 100vw;
+  height: 780px;
+  max-height: 100vh;
+  background: var(--bg-main);
+  border-radius: 36px;
+  box-shadow: var(--shadow-soft);
+  padding: 10px 14px 18px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* =========================
+   STATUS BAR & HEADER
+   ========================= */
+
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.status-icons .dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--text-muted);
+  display: inline-block;
+  margin-left: 3px;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--accent);
+  overflow: hidden;
+}
+
+.avatar.big {
+  width: 64px;
+  height: 64px;
+}
+
+.avatar span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.greeting {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.today-text {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.profile-shortcut {
+  border: none;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+/* =========================
+   TABS
+   ========================= */
+
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.tab-btn {
+  flex: 1;
+  border: none;
+  padding: 6px 8px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  color: #4b5563;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  background: var(--accent);
+  color: white;
+}
+
+/* =========================
+   CONTENT AREA
+   ========================= */
+
+.tab-pane {
+  display: none;
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.tab-pane.active {
+  display: block;
+}
+
+/* =========================
+   CARDS
+   ========================= */
+
+.card {
+  background: white;
+  border-radius: var(--card-radius);
+  padding: 14px 14px 12px;
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0.03);
+  margin-bottom: 10px;
+}
+
+.card h2 {
+  font-size: 0.95rem;
+  margin: 0 0 6px;
+}
+
+.card h3 {
+  font-size: 0.9rem;
+  margin: 0 0 6px;
+}
+
+.small-hint {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+/* =========================
+   HOME – TASK STATUS LIST
+   ========================= */
+
+.task-status-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.task-status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 9px;
+  border-radius: 999px;
+  background: #f3f4ff;
+}
+
+.task-status-row.todo {
+  background: #fee2e2;
+}
+.task-status-row.inprogress {
+  background: #fef3c7;
+}
+.task-status-row.done {
+  background: #dcfce7;
+}
+
+.status-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.status-sub {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.status-count {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+/* small stats grid */
+.stats-grid {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.stat {
+  flex: 1;
+  font-size: 0.7rem;
+}
+.stat .label {
+  display: block;
+  color: var(--text-muted);
+}
+.stat .value {
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+/* Progress bar */
+
+.progress-wrapper {
+  margin-top: 6px;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-bottom: 3px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  overflow: hidden;
+}
+
+#progress-fill {
+  height: 100%;
+  width: 0;
+  border-radius: inherit;
+  background: var(--accent);
+}
+
+/* =========================
+   WEATHER
+   ========================= */
+
+.weather-card {
+  margin-top: 4px;
+}
+
+.weather-location {
+  font-size: 0.8rem;
+  margin-bottom: 4px;
+}
+
+.weather-days {
+  display: flex;
+  gap: 6px;
+}
+
+.weather-day {
+  flex: 1;
+  background: #f3f4ff;
+  border-radius: 12px;
+  padding: 6px 4px;
+  text-align: center;
+  font-size: 0.7rem;
+}
+
+.weather-day .icon {
+  font-size: 1.2rem;
+  margin: 2px 0;
+}
+
+.weather-day .temp {
+  font-weight: 600;
+}
+
+/* =========================
+   LIST ITEMS (tasks / finance)
+   ========================= */
+
+.item-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px dashed #e5e7eb;
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.item-main {
+  flex: 1;
+}
+
+.item-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.item-meta {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+/* badges */
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-top: 3px;
+}
+
+.badge {
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: #e5e7eb;
+}
+
+/* priorities */
+.priority-high {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+.priority-normal {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+.priority-low {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+/* categories */
+.cat-work {
+  background: #fef3c7;
+  color: #92400e;
+}
+.cat-private {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+/* item actions */
+
+.item-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* small buttons */
+.primary-btn,
+.small-btn {
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+
+.primary-btn {
+  width: 100%;
+  padding: 7px 10px;
+  margin-top: 6px;
+  background: var(--accent);
+  color: white;
+}
+
+.small-btn {
+  padding: 2px 6px;
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.small-btn.complete {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.small-btn.edit {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.small-btn.postpone {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.small-btn.maps {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.small-btn.email {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.small-btn.delete,
+.small-btn.danger {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* =========================
+   FORMS
+   ========================= */
+
+form label {
+  display: block;
+  font-size: 0.75rem;
+  margin-top: 6px;
+  margin-bottom: 2px;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="time"],
+input[type="number"],
+input[type="file"],
+textarea,
+select {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  padding: 6px 8px;
+  font-size: 0.75rem;
+  outline: none;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+}
+
+.col {
+  flex: 1;
+}
+
+/* =========================
+   CALENDAR
+   ========================= */
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 0.8rem;
+}
+
+.calendar-header button {
+  border-radius: 999px;
+  border: none;
+  width: 24px;
+  height: 24px;
+  background: #e5e7eb;
+  cursor: pointer;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+  font-size: 0.7rem;
+}
+
+.calendar-cell {
+  padding: 6px 4px;
+  text-align: center;
+  border-radius: 10px;
+  background: #f9fafb;
+  cursor: pointer;
+  position: relative;
+}
+
+.calendar-cell.other-month {
+  color: #d1d5db;
+}
+
+.calendar-cell.has-items {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.calendar-cell.selected {
+  outline: 2px solid var(--accent);
+}
+
+/* colouring for meetings */
+.calendar-cell.meeting-work {
+  background: #fecaca;
+  color: #b91c1c;
+}
+
+.calendar-cell.meeting-private {
+  background: #bfdbfe;
+  color: #1d4ed8;
+}
+
+/* =========================
+   WEEK VIEW
+   ========================= */
+
+.week-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  margin-bottom: 6px;
+}
+
+.week-header button {
+  border-radius: 999px;
+  border: none;
+  width: 24px;
+  height: 24px;
+  background: #e5e7eb;
+  cursor: pointer;
+}
+
+.week-container {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.week-day-card {
+  min-width: 60px;
+  background: #f9fafb;
+  border-radius: 14px;
+  padding: 6px 4px;
+  font-size: 0.7rem;
+}
+
+.week-day-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3px;
+  font-weight: 600;
+}
+
+.week-day-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.week-day-list li {
+  font-size: 0.7rem;
+  margin-bottom: 3px;
+}
+
+
+/* =========================
+   WEEK BAR GRID (Outlook style)
+   ========================= */
+
+.week-bar-wrapper {
+  overflow: auto;
+  max-height: 360px; /* scroll if the grid is tall */
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+}
+
+.week-bar-grid {
+  display: grid;
+  grid-template-columns: 48px repeat(7, 1fr); /* hours + 7 days */
+  grid-auto-rows: 26px; /* one row per hour (24 rows) + header row */
+  font-size: 0.68rem;
+  background: #f9fafb;
+}
+
+/* header row */
+.week-bar-day-label {
+  font-weight: 600;
+  text-align: center;
+  padding: 4px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* hour labels in first column */
+.week-bar-hour {
+  text-align: right;
+  padding-right: 4px;
+  border-right: 1px solid #e5e7eb;
+  border-bottom: 1px solid #f1f5f9;
+  color: var(--text-muted);
+}
+
+/* background grid cells for days */
+.week-bar-slot {
+  border-bottom: 1px solid #f1f5f9;
+  border-right: 1px solid #f1f5f9;
+}
+
+/* the coloured event blocks */
+.week-bar-event {
+  border-radius: 6px;
+  padding: 2px 4px;
+  font-size: 0.65rem;
+  line-height: 1.2;
+  color: #0f172a;
+  overflow: hidden;
+}
+
+/* colours for work / private etc */
+.week-bar-event.work {
+  background: #fecaca;
+  border: 1px solid #f87171;
+}
+
+.week-bar-event.private {
+  background: #bfdbfe;
+  border: 1px solid #60a5fa;
+}
+
+.week-bar-event.other {
+  background: #e5e7eb;
+  border: 1px solid #9ca3af;
+}
+
+
+/* =========================
+   FINANCE
+   ========================= */
+
+.finance-summary {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  margin-bottom: 6px;
+}
+
+.finance-summary .label {
+  display: block;
+  color: var(--text-muted);
+}
+
+.finance-summary .value {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* =========================
+   PROFILE
+   ========================= */
+
+.profile-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.profile-fields {
+  flex: 1;
+}
+
+/* =========================
+   SETTINGS – THEME BUTTONS
+   ========================= */
+
+.theme-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.theme-btn {
+  border: none;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  background: #e5e7eb;
+  cursor: pointer;
+}
+
+.theme-btn.active {
+  background: var(--accent);
+  color: white;
+}
+
+/* =========================
+   IMAGE THUMB & MODAL
+   ========================= */
+
+.item-thumb {
+  margin-top: 4px;
+  max-width: 120px;
+  max-height: 70px;
+  border-radius: 10px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+/* modal */
+
+.image-modal.hidden {
+  display: none;
+}
+
+.image-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.image-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.65);
+}
+
+.image-modal img {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+/* =========================
+   SCROLLBAR (optional nicer)
+   ========================= */
+
+.app-phone ::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.app-phone ::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.8);
+  border-radius: 999px;
+}
+.app-phone ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* MOBILE SMALL HEIGHT FIX */
+@media (max-height: 720px) {
+  .app-phone {
+    height: 720px;
+  }
+}

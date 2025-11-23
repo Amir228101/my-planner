@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Personal Planner</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <div class="app-phone">
+      <!-- Status bar -->
+      <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <div class="status-icons">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        </div>
+      </div>
+
+      <!-- Header -->
+      <header class="app-header">
+        <div class="user-info">
+          <div class="avatar" id="avatar">
+            <span id="avatar-initial">A</span>
+          </div>
+          <div>
+            <div id="greeting" class="greeting">Hello Amir</div>
+            <div id="today-text" class="today-text"></div>
+          </div>
+        </div>
+        <button id="profile-tab-shortcut" class="profile-shortcut">Profile</button>
+      </header>
+
+      <!-- Tabs -->
+      <nav class="tabs">
+        <button class="tab-btn active" data-tab="home">Home</button>
+        <button class="tab-btn" data-tab="calendar">Calendar</button>
+        <button class="tab-btn" data-tab="week">Week</button>
+        <button class="tab-btn" data-tab="tasks">Tasks</button>
+        <button class="tab-btn" data-tab="finance">Finance</button>
+        <button class="tab-btn" data-tab="profile">Profile</button>
+        <button class="tab-btn" data-tab="settings">Settings</button>
+      </nav>
+
+      <!-- HOME TAB -->
+      <section class="tab-pane active" id="tab-home">
+        <div class="card stats-card">
+          <h2>My tasks</h2>
+
+          <div class="task-status-list">
+            <div class="task-status-row todo">
+              <div>
+                <div class="status-title">To Do</div>
+                <div class="status-sub">Tasks not started</div>
+              </div>
+              <div class="status-count" id="home-count-todo">0</div>
+            </div>
+            <div class="task-status-row inprogress">
+              <div>
+                <div class="status-title">In Progress</div>
+                <div class="status-sub">You are working on them</div>
+              </div>
+              <div class="status-count" id="home-count-inprogress">0</div>
+            </div>
+            <div class="task-status-row done">
+              <div>
+                <div class="status-title">Done</div>
+                <div class="status-sub">Completed tasks</div>
+              </div>
+              <div class="status-count" id="home-count-done">0</div>
+            </div>
+          </div>
+
+          <!-- small stats row (used by JS) -->
+          <div class="stats-grid" style="margin-top:4px;">
+            <div class="stat">
+              <span class="label">Open today</span>
+              <span id="stat-open-tasks" class="value">0</span>
+            </div>
+            <div class="stat">
+              <span class="label">Meetings today</span>
+              <span id="stat-meetings-today" class="value">0</span>
+            </div>
+            <div class="stat">
+              <span class="label">Completed today</span>
+              <span id="stat-completed-today" class="value">0</span>
+            </div>
+          </div>
+
+          <div class="progress-wrapper">
+            <div class="progress-label">
+              <span>Today’s progress</span>
+              <span id="progress-percent">0%</span>
+            </div>
+            <div class="progress-bar">
+              <div id="progress-fill"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card weather-card">
+          <h2>Weather</h2>
+          <div id="weather-location" class="weather-location">No location set</div>
+          <div id="weather-days" class="weather-days"></div>
+          <p class="small-hint">
+            Set your city and WeatherAPI key in the Settings tab.
+          </p>
+        </div>
+
+        <div class="card">
+          <h2>Today’s schedule</h2>
+          <ul id="today-list" class="item-list"></ul>
+          <p class="small-hint">
+            Add new tasks or meetings in the Calendar or Tasks tabs.
+          </p>
+        </div>
+      </section>
+
+      <!-- CALENDAR TAB -->
+      <section class="tab-pane" id="tab-calendar">
+        <div class="card">
+          <h2>Calendar</h2>
+          <div class="calendar-header">
+            <button id="prev-month">‹</button>
+            <div id="month-label"></div>
+            <button id="next-month">›</button>
+          </div>
+          <div class="calendar-grid" id="calendar-grid"></div>
+        </div>
+
+        <div class="card">
+          <h3 id="selected-day-label">Today</h3>
+          <ul id="day-items" class="item-list"></ul>
+          <button id="add-item-today" class="primary-btn">Add item for this day</button>
+        </div>
+      </section>
+
+     
+
+
+        <!-- WEEK TAB -->
+        <section class="tab-pane" id="tab-week">
+        <div class="card">
+            <h2>Week overview</h2>
+            <div class="week-header">
+            <button id="prev-week">‹</button>
+            <div id="week-label"></div>
+            <button id="next-week">›</button>
+            </div>
+            <div id="week-container" class="week-container"></div>
+        </div>
+
+        <div class="card">
+            <h2>Week timeline</h2>
+            <div id="week-bar-wrapper" class="week-bar-wrapper">
+            <div id="week-bar-grid" class="week-bar-grid"></div>
+            </div>
+            <p class="small-hint">
+            Week view: hours on the left, days on top. Bars show the duration of your tasks/meetings.
+            </p>
+        </div>
+        </section>
+
+
+      <!-- TASKS TAB -->
+      <section class="tab-pane" id="tab-tasks">
+        <div class="card">
+          <h2>Create task / meeting</h2>
+          <form id="item-form">
+            <input type="hidden" id="item-id" />
+
+            <label>Title</label>
+            <input type="text" id="item-title" required />
+
+            <label>Date</label>
+            <input type="date" id="item-date" required />
+
+            <div class="row">
+              <div class="col">
+                <label>Start time</label>
+                <input type="time" id="item-time" required />
+              </div>
+              <div class="col">
+                <label>End time</label>
+                <input type="time" id="item-endtime" required />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <label>Status</label>
+                <select id="item-status">
+                  <option value="todo">To Do</option>
+                  <option value="inprogress">In progress</option>
+                  <option value="done">Done</option>
+                </select>
+              </div>
+              <div class="col">
+                <label>Priority</label>
+                <select id="item-priority">
+                  <option value="high">High</option>
+                  <option value="normal" selected>Normal</option>
+                  <option value="low">Low</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <label>Type</label>
+                <select id="item-type">
+                  <option value="task">Task</option>
+                  <option value="meeting">Meeting</option>
+                  <option value="study">Study</option>
+                  <option value="sport">Sport</option>
+                  <option value="food">Food</option>
+                </select>
+              </div>
+              <div class="col">
+                <label>Category</label>
+                <select id="item-category">
+                  <option value="work">Work</option>
+                  <option value="private" selected>Private</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <label>
+                  <input type="checkbox" id="item-reminder" checked />
+                  Reminder 30 min before
+                </label>
+              </div>
+            </div>
+
+            <label>Location (for meetings / events)</label>
+            <input
+              type="text"
+              id="item-location"
+              placeholder="e.g. Company HQ, Berlin"
+            />
+
+            <label>Notes</label>
+            <textarea id="item-notes" rows="2"></textarea>
+
+            <label>Attachment (image or video)</label>
+            <input
+              type="file"
+              id="item-attachment"
+              accept="image/*,video/*"
+            />
+
+            <button type="submit" class="primary-btn" id="item-save-btn">
+              Save item
+            </button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2>All tasks & meetings</h2>
+          <div class="filters">
+            <select id="filter-priority">
+              <option value="all">Priority: All</option>
+              <option value="high">High</option>
+              <option value="normal">Normal</option>
+              <option value="low">Low</option>
+            </select>
+            <select id="filter-category">
+              <option value="all">Category: All</option>
+              <option value="work">Work</option>
+              <option value="private">Private</option>
+            </select>
+          </div>
+          <ul id="all-items-list" class="item-list"></ul>
+        </div>
+      </section>
+
+      <!-- FINANCE TAB -->
+      <section class="tab-pane" id="tab-finance">
+        <div class="card">
+          <h2>Finance</h2>
+          <form id="finance-form">
+            <input type="hidden" id="finance-id" />
+
+            <label>Title</label>
+            <input type="text" id="finance-title" required />
+
+            <div class="row">
+              <div class="col">
+                <label>Amount (€)</label>
+                <input
+                  type="number"
+                  id="finance-amount"
+                  step="0.01"
+                  required
+                />
+              </div>
+              <div class="col">
+                <label>Date</label>
+                <input type="date" id="finance-date" required />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <label>Kind</label>
+                <select id="finance-kind">
+                  <option value="expense">Paid expense</option>
+                  <option value="planned">Planned payment</option>
+                </select>
+              </div>
+              <div class="col">
+                <label>Category</label>
+                <select id="finance-category">
+                  <option value="food">Food</option>
+                  <option value="rent">Rent</option>
+                  <option value="transport">Transport</option>
+                  <option value="shopping">Shopping</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <label>Notes</label>
+            <textarea id="finance-notes" rows="2"></textarea>
+
+            <button type="submit" class="primary-btn" id="finance-save-btn">
+              Save entry
+            </button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2>Overview</h2>
+          <div class="finance-summary">
+            <div>
+              <span class="label">This month spent</span>
+              <div id="finance-total" class="value">0 €</div>
+            </div>
+            <div>
+              <span class="label">Planned payments</span>
+              <div id="finance-planned-count" class="value">0</div>
+            </div>
+          </div>
+
+          <ul id="finance-list" class="item-list"></ul>
+        </div>
+      </section>
+
+      <!-- PROFILE TAB -->
+      <section class="tab-pane" id="tab-profile">
+        <div class="card">
+          <h2>Your profile</h2>
+          <div class="profile-row">
+            <div class="avatar big" id="avatar-big">
+              <span id="avatar-big-initial">A</span>
+            </div>
+            <div class="profile-fields">
+              <label>Name</label>
+              <input type="text" id="profile-name" placeholder="Your name" />
+
+              <label>Upload profile image</label>
+              <input
+                type="file"
+                id="profile-image-input"
+                accept="image/*"
+              />
+
+              <button
+                type="button"
+                id="profile-remove-image"
+                class="small-btn danger"
+              >
+                Remove picture
+              </button>
+            </div>
+          </div>
+          <p class="small-hint">
+            Your name and picture are stored only in this browser.
+          </p>
+        </div>
+      </section>
+
+      <!-- SETTINGS TAB -->
+      <section class="tab-pane" id="tab-settings">
+        <div class="card">
+          <h2>Theme</h2>
+          <p class="small-hint">
+            Choose a colour style for your planner.
+          </p>
+          <div class="theme-row">
+            <button class="theme-btn" data-theme="green">Green</button>
+            <button class="theme-btn" data-theme="blue">Blue</button>
+            <button class="theme-btn" data-theme="purple">Purple</button>
+            <button class="theme-btn" data-theme="light">Light</button>
+            <button class="theme-btn" data-theme="dark">Dark</button>
+          </div>
+
+          <label style="margin-top:8px;">Background image</label>
+          <input type="file" id="settings-bg-image" accept="image/*" />
+          <button type="button" id="settings-bg-clear" class="small-btn">
+            Remove background
+          </button>
+        </div>
+
+        <div class="card">
+          <h2>Weather settings</h2>
+          <p class="small-hint">
+            Uses the free WeatherAPI.com service. Your key is stored only in this
+            browser.
+          </p>
+
+          <label>City</label>
+          <input
+            type="text"
+            id="settings-city"
+            placeholder="e.g. Karlsruhe, DE"
+          />
+
+          <label>WeatherAPI key</label>
+          <input
+            type="text"
+            id="settings-weather-key"
+            placeholder="Your API key"
+          />
+
+          <button
+            type="button"
+            id="settings-save-weather"
+            class="primary-btn"
+          >
+            Save & update weather
+          </button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Image modal for big attachment preview -->
+  <div id="image-modal" class="image-modal hidden">
+    <div class="image-modal-backdrop"></div>
+    <img id="image-modal-img" alt="Attachment" />
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
