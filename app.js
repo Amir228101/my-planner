@@ -18,11 +18,39 @@ let financeEntries = [];
 let weatherSettings = { city: "", apiKey: "" };
 let pendingAttachment = null; // holds file data while editing/creating
 
+
+
+
+// Turn a Date into "YYYY-MM-DD" in LOCAL time (no timezone problems)
+function dateKeyFromDate(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+// Turn "YYYY-MM-DD" into a Date in LOCAL time
+function dateFromKey(key) {
+  const [y, m, d] = key.split("-").map(Number);
+  return new Date(y, m - 1, d);
+}
+
+
 /***********************
  * UTIL
  ***********************/
 function formatDate(d) {
-  return d.toISOString().slice(0, 10); // YYYY-MM-DD
+  // local date -> YYYY-MM-DD (no UTC shift)
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+function parseDate(dateStr) {
+  // "2025-11-23" -> local Date
+  const [y, m, d] = dateStr.split("-").map(Number);
+  return new Date(y, m - 1, d);
 }
 
 function todayString() {
@@ -35,7 +63,7 @@ function compareDateTime(a, b) {
 
 function getMonday(d) {
   const date = new Date(d);
-  const day = date.getDay(); // 0=Sun
+  const day = date.getDay(); // 0 = Sun
   const diff = (day === 0 ? -6 : 1) - day;
   date.setDate(date.getDate() + diff);
   date.setHours(0, 0, 0, 0);
@@ -71,7 +99,7 @@ function saveItems() {
 
 function loadProfile() {
   const raw = localStorage.getItem(STORAGE_KEY_PROFILE);
-  return raw ? JSON.parse(raw) : { name: "Amir", image: null };
+  return raw ? JSON.parse(raw) : { name: "Username", image: null };
 }
 
 function saveProfile() {
@@ -636,7 +664,7 @@ nextWeekBtn.addEventListener("click", () => {
  * DAY ITEMS
  ***********************/
 function renderDayItems() {
-  const d = new Date(selectedDay);
+  const d = parseDate(selectedDay);
   selectedDayLabel.textContent = d.toLocaleDateString(undefined, {
     weekday: "long",
     month: "short",
